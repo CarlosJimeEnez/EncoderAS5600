@@ -1,0 +1,1 @@
+Libreria para el manejo de los encoders AS5600
