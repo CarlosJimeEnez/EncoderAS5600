@@ -29,7 +29,7 @@ public:
     void selectChannel();
     int checkCuadrant(float);
     void setupCero();
-    void mapVal();
+    float mapVal();
     float getCero();
     float promedio(int resolucion);
     float SumDegTotal(const float);
@@ -106,8 +106,9 @@ void Encoder::setupCero()
 {
     this->_cero = Encoder::getPosDeg();
 }
-
-void Encoder::mapVal()
+//El valor actual en ese momento se convierte en el 0 y desde 
+//ahi comienza a contar. 
+float Encoder::mapVal()
 {
     float degProm = Encoder::promedio(3);
     float intervalo = (360 - this->_cero);
@@ -119,6 +120,7 @@ void Encoder::mapVal()
     {
         this->_valAct = map(degProm, 0, this->_cero, intervalo, 360);
     }
+    return this->_valAct; 
 }
 
 float Encoder::SumDegTotal(const float constant)
@@ -156,11 +158,13 @@ float Encoder::SumDegTotal(const float constant)
         this->_lastCuadrante = this->_actualCuadrante;
     }
 
+    //Suma los grados cuando se da una vuelta completa: 
     this->_valTotal = this->_vueltas * 360 + this->_valAct;
-
+    
     Encoder::ActualizaPrev();
+
     // Actualizacion del valor:
-    float mapTotal = Encoder::mapTotal(2516.4);
+    float mapTotal = Encoder::mapTotal(constant);
     return mapTotal;
 }
 
